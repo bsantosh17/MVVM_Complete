@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } else {
-                //Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
                 Utils.snackbarMessage(this,binding.root,"No Internet Connection")
             }
         }
@@ -52,12 +51,10 @@ class MainActivity : AppCompatActivity() {
             Utils.hideProgress()
             when(networkState){
                 is NetworkState.Success ->{
-                    //Snackbar.make(binding.root, "Login Successfully...", Snackbar.LENGTH_SHORT).show()
                     Utils.snackbarMessage(this,binding.root,"Login Successfully...")
                 }
 
                 is NetworkState.Error ->{
-                    //Snackbar.make(binding.root,"Invalid Credentials",Snackbar.LENGTH_SHORT).show()
                     Utils.snackbarMessage(this,binding.root,"Invalid Credentials")
                 }
             }
@@ -72,4 +69,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch { viewModelLogin.loginCall(loginRequest) }
 
     }
+
+    //New Branch Code
 }
