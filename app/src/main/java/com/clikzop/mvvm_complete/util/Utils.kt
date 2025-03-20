@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.clikzop.mvvm_complete.R
 import com.google.android.material.snackbar.Snackbar
@@ -38,5 +39,9 @@ object Utils {
     fun hideProgress() {
         progressDialog?.dismiss()
         progressDialog = null
+    }
+
+    fun toastMessage(context: Context,msg:String){
+        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
     }
 }

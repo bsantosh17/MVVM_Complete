@@ -2,12 +2,14 @@ package com.clikzop.mvvm_complete.ui.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.clikzop.mvvm_complete.R
+import com.clikzop.mvvm_complete.data.local.sharedPref.PreferencesHelper
 import com.clikzop.mvvm_complete.data.network.NetworkState
 import com.clikzop.mvvm_complete.data.network.RetrofitClient
 import com.clikzop.mvvm_complete.data.repository.Mainrepository
@@ -24,10 +26,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModelLogin: ViewModelLogin
+    private lateinit var preferencesHelper: PreferencesHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        preferencesHelper = PreferencesHelper(this)
+
+        val isLogin = preferencesHelper.getLogin()
+        Log.i("TAG", "onCreate: ${isLogin}")
+        if(isLogin != null){
+            Utils.toastMessage(this,isLogin.toString())
+            Log.i("TAG", "onCreate: ${isLogin}")
+        }
 
         val retrofitclient = RetrofitClient.apiService
         val mainLoginResponse = Mainrepository(retrofitclient)
@@ -52,6 +64,9 @@ class MainActivity : AppCompatActivity() {
             when(networkState){
                 is NetworkState.Success ->{
                     Utils.snackbarMessage(this,binding.root,"Login Successfully...")
+                    preferencesHelper.saveLogin("login")
+                    Log.i("TAG", "onCreate: ${networkState.data}")
+
                 }
 
                 is NetworkState.Error ->{
