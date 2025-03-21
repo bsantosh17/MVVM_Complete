@@ -1,5 +1,6 @@
 package com.clikzop.mvvm_complete.ui.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.clikzop.mvvm_complete.databinding.ActivityMainBinding
 import com.clikzop.mvvm_complete.ui.auth.model.LoginRequest
 import com.clikzop.mvvm_complete.ui.auth.viewModel.ViewModelFactoryLogin
 import com.clikzop.mvvm_complete.ui.auth.viewModel.ViewModelLogin
+import com.clikzop.mvvm_complete.ui.dashboard.DashboardActivity
 import com.clikzop.mvvm_complete.util.NetworkUtils
 import com.clikzop.mvvm_complete.util.Utils
 import com.google.android.material.snackbar.Snackbar
@@ -37,8 +39,7 @@ class MainActivity : AppCompatActivity() {
         val isLogin = preferencesHelper.getLogin()
         Log.i("TAG", "onCreate: ${isLogin}")
         if(isLogin != null){
-            Utils.toastMessage(this,isLogin.toString())
-            Log.i("TAG", "onCreate: ${isLogin}")
+            startActivity(Intent(this,DashboardActivity::class.java))
         }
 
         val retrofitclient = RetrofitClient.apiService
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 is NetworkState.Success ->{
                     Utils.snackbarMessage(this,binding.root,"Login Successfully...")
                     preferencesHelper.saveLogin("login")
-                    Log.i("TAG", "onCreate: ${networkState.data}")
+                    startActivity(Intent(this,DashboardActivity::class.java))
 
                 }
 
